@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Movie Recommender</title>
+      <link rel="icon" href="{{ url_for('static', filename='film.ico') }}" type="image/x-icon">
+      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@800&display=swap">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   </head>
+   <body>
+      <div class="container">
+         <div class="bg-blur">
+            <div></div>
+            <div></div>
+         </div>
+         <div class="container">
+            <h1>Movie Recommender</h1>
+            <form method="POST" id="recommendForm" onsubmit="disableButton()">
+               <input type="text" name="movie" placeholder="Enter a movie title..." required>
+               <div class="buttons">
+                  <button type="submit" id="submitBtn"><i class="fas fa-robot"></i> Get Recommendations</button>
+                  <button type="reset" onclick="window.location.href='/'"><i class="fas fa-redo"></i> Reset</button>
+               </div>
+            </form>
+            {% if recommendations %}
+            <h2>Recommendations:</h2>
+            <div class="grid">
+               {% for movie in recommendations %}
+               <a href="{{ movie.link }}" target="_blank" class="card-link">
+                  <div class="card">
+                     {% if movie.poster %}
+                     <img src="{{ movie.poster }}" alt="{{ movie.title }}">
+                     {% endif %}
+                     <p>{{ movie.title }}</p>
+                  </div>
+               </a>
+               {% endfor %}
+            </div>
+            {% endif %}
+         </div>
+      </div>
+      <script>
+         function disableButton() {
+             const submitBtn = document.getElementById("submitBtn");
+             submitBtn.innerHTML = '<span class="loading"></span> Analyzing...';
+             submitBtn.disabled = true;
+             return true;
+         }
+      </script>
+   </body>
+</html>
